@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:avia_hackathon/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'navigation/router.gr.dart';
@@ -22,7 +23,12 @@ class MyApp extends StatelessWidget {
         navigatorObservers: () => [AutoRouteObserver()],
       ),
       builder: (context, child) {
-        return const Scaffold();
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: AppColors.mainBlack,
+            body: child,
+          ),
+        );
       },
     );
   }

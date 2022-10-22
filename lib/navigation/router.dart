@@ -11,16 +11,18 @@ import 'package:avia_hackathon/pages/onboarding_page.dart';
       name: 'InitRouter',
       page: InitPage,
       initial: true,
-    ),
-    AutoRoute(
-      path: 'home',
-      name: 'HomeRouter',
-      page: HomePage,
-    ),
-    AutoRoute(
-      path: 'onboard',
-      name: 'OnBoardingRouter',
-      page: OnBoardingPage,
+      children: [
+        AutoRoute(
+          path: 'home',
+          name: 'HomeRouter',
+          page: HomePage,
+        ),
+        AutoRoute(
+          path: 'onboard',
+          name: 'OnBoardingRouter',
+          page: OnBoardingPage,
+        ),
+      ],
     ),
   ],
 )

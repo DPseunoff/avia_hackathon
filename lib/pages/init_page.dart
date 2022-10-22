@@ -23,9 +23,10 @@ class _InitPageState extends State<InitPage> {
 
   Future<void> checkAuth() async {
     final prefs = await SharedPreferences.getInstance();
-    final loggedIn = prefs.getString('userId');
-    if (loggedIn.isEmpty) {
-      await context.router.replaceAll([const OnBoardingRouter()]);
+    final loggedIn = prefs.getString('userId') ?? '';
+    if (loggedIn.isNotEmpty) {
+      // await context.router.replaceAll([const OnBoardingRouter()]);
+      await context.router.replaceAll([const HomeRouter()]);
     } else {
       await context.router.replaceAll([const HomeRouter()]);
     }
