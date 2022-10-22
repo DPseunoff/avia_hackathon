@@ -1,0 +1,27 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:avia_hackathon/pages/home_page.dart';
+import 'package:avia_hackathon/pages/init_page.dart';
+import 'package:avia_hackathon/pages/onboarding_page.dart';
+
+@MaterialAutoRouter(
+  replaceInRouteName: 'Page,Route',
+  routes: <AutoRoute>[
+    AutoRoute(
+      path: 'init',
+      name: 'InitRouter',
+      page: InitPage,
+      initial: true,
+    ),
+    AutoRoute(
+      path: 'home',
+      name: 'HomeRouter',
+      page: HomePage,
+    ),
+    AutoRoute(
+      path: 'onboard',
+      name: 'OnBoardingRouter',
+      page: OnBoardingPage,
+    ),
+  ],
+)
+class $AppRouter {}
