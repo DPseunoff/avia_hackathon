@@ -5,6 +5,7 @@ import 'package:avia_hackathon/utils/assets_paths.dart';
 import 'package:avia_hackathon/utils/text_styles.dart';
 import 'package:avia_hackathon/widgets/app_button.dart';
 import 'package:avia_hackathon/widgets/dialogs.dart';
+import 'package:avia_hackathon/widgets/main_card_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -50,7 +51,8 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
       ),
-      child: Padding(
+      child: false ? MainCardStates().restState() :
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 44),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

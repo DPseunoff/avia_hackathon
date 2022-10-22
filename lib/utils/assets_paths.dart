@@ -11,4 +11,6 @@ abstract class Assets {
 
   static const arrow = '${pathStart}route_arrow.svg';
   static const doubleArrow = '${iconPathStart}double_arrow_icon.svg';
+
+  static const breakPic = '${pathStart}break.png';
 }
