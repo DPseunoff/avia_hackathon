@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:avia_hackathon/pages/alert_page.dart';
 import 'package:avia_hackathon/pages/home_page.dart';
 import 'package:avia_hackathon/pages/init_page.dart';
 import 'package:avia_hackathon/pages/onboarding_page.dart';
@@ -23,6 +24,11 @@ import 'package:avia_hackathon/pages/onboarding_page.dart';
           page: OnBoardingPage,
         ),
       ],
+    ),
+    AutoRoute(
+      path: 'alert',
+      name: 'AlertRouter',
+      page: AlertPage,
     ),
   ],
 )
