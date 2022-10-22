@@ -2,6 +2,7 @@ abstract class Assets {
   static const pathStart = 'assets/';
   static const iconPathStart = 'assets/icons/';
 
+  static const backGround = '${pathStart}background.png';
   static const rest = '${iconPathStart}rest_icon.svg';
   static const alert = '${iconPathStart}alert_icon.svg';
   static const exit = '${iconPathStart}exit_icon.svg';
@@ -13,4 +14,5 @@ abstract class Assets {
   static const doubleArrow = '${iconPathStart}double_arrow_icon.svg';
 
   static const breakPic = '${pathStart}break.png';
+  static const zero = '${pathStart}zero_state.svg';
 }

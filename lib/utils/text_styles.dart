@@ -66,4 +66,17 @@ abstract class AppTextStyles {
         color: color,
         fontWeight: fontWeight,
       );
+
+  static TextStyle input({
+    double fontSize = 16,
+    double height = 19.36 / 16,
+    Color color = Colors.black,
+    FontWeight fontWeight = FontWeight.w700,
+  }) =>
+      GoogleFonts.inter(
+        fontSize: fontSize,
+        height: height,
+        color: color,
+        fontWeight: fontWeight,
+      );
 }

@@ -1,7 +1,11 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:avia_hackathon/navigation/router.gr.dart';
 import 'package:avia_hackathon/utils/app_colors.dart';
+import 'package:avia_hackathon/utils/assets_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:avia_hackathon/utils/text_styles.dart';
 import 'package:avia_hackathon/widgets/app_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
@@ -11,180 +15,199 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
+  final nameController = TextEditingController();
+  final idController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-        SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/plane.png"),
-                fit: BoxFit.fitHeight,
-              )
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Assets.backGround),
+              fit: BoxFit.fitHeight,
             ),
-            child: Container(
-              decoration:
-                  BoxDecoration(color: AppColors.mainBlack.withOpacity(0.4)),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 100, top: 50),
-                        child: Text(
-                          'АЭРОПОРТ ШЕРЕМЕТЬЕВО',
-                          style: AppTextStyles.heading1()
-                              .copyWith(color: Colors.white, height: 44 / 36),
+          ),
+          child: Container(
+            decoration:
+                BoxDecoration(color: AppColors.mainBlack.withOpacity(0.4)),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100, top: 50),
+                      child: Text(
+                        'АЭРОПОРТ ШЕРЕМЕТЬЕВО',
+                        style: AppTextStyles.heading1().copyWith(
+                          color: Colors.white,
+                          height: 44 / 36,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 100),
-                        child: Text(
-                          'Приложение для водителей автобусов',
-                          style: AppTextStyles.smallText().copyWith(
-                            color: const Color(0xffD0D0D0),
-                          ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100),
+                      child: Text(
+                        'Приложение для водителей автобусов',
+                        style: AppTextStyles.smallText().copyWith(
+                          color: const Color(0xffD0D0D0),
                         ),
                       ),
-                      Container(
-                        constraints:
-                            const BoxConstraints(minWidth: 100, maxWidth: 600),
-                        padding: const EdgeInsets.only(left: 100, top: 200),
-                        child: Text(
-                          'Мы заботимся о вашем удобстве',
-                          style: AppTextStyles.heading1().copyWith(
-                            color: Colors.white,
-                            fontSize: 48,
-                            fontWeight: FontWeight.w500,
-                            height: 58 / 48,
-                          ),
+                    ),
+                    Container(
+                      constraints: const BoxConstraints(
+                        minWidth: 100,
+                        maxWidth: 600,
+                      ),
+                      padding: const EdgeInsets.only(left: 100, top: 200),
+                      child: Text(
+                        'Мы заботимся о вашем удобстве',
+                        style: AppTextStyles.heading1().copyWith(
+                          color: Colors.white,
+                          fontSize: 48,
+                          fontWeight: FontWeight.w500,
+                          height: 58 / 48,
                         ),
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 84, top: 115),
-                        child: Container(
-                          height: 451,
-                          width: 529,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 12,
-                                offset: const Offset(3, 6),
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 44, top: 44, bottom: 9),
-                                    child: Text(
-                                      'ID',
-                                      style: AppTextStyles.heading2().copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 24,
-                                        height: 29 / 24,
-                                        color: AppColors.mainBlack,
-                                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 84, top: 115),
+                      child: Container(
+                        height: 451,
+                        width: 529,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 12,
+                              offset: const Offset(3, 6),
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 44, top: 44, bottom: 9),
+                                  child: Text(
+                                    'ID',
+                                    style: AppTextStyles.heading2().copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 24,
+                                      height: 29 / 24,
+                                      color: AppColors.mainBlack,
                                     ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 44, right: 42),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: 'Ваш ID',
-                                        fillColor: AppColors.lightGrey,
-                                        filled: true,
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(20, 22, 20, 22),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20.0)),
-                                          borderSide: BorderSide(
-                                            color: AppColors.lightGrey,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20.0)),
-                                          borderSide: BorderSide(
-                                            color: AppColors.lightGrey,
-                                          ),
-                                        ),
-                                      ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 44, right: 42),
+                                  child: buildTextField(
+                                    idController,
+                                    'Введите ваш ID',
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 44,
+                                    top: 25,
+                                    bottom: 9,
+                                  ),
+                                  child: Text(
+                                    'Имя',
+                                    style: AppTextStyles.heading2().copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 24,
+                                      height: 29 / 24,
+                                      color: AppColors.mainBlack,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 44, top: 25, bottom: 9),
-                                    child: Text(
-                                      'Имя',
-                                      style: AppTextStyles.heading2().copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 24,
-                                        height: 29 / 24,
-                                        color: AppColors.mainBlack,
-                                      ),
-                                    ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 44,
+                                    right: 42,
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 44, right: 42),
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: 'Ваше имя',
-                                        fillColor: AppColors.lightGrey,
-                                        filled: true,
-                                        contentPadding:
-                                            EdgeInsets.fromLTRB(20, 22, 20, 22),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20.0)),
-                                          borderSide: BorderSide(
-                                            color: AppColors.lightGrey,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20.0)),
-                                          borderSide: BorderSide(
-                                            color: AppColors.lightGrey,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                  child: buildTextField(
+                                    nameController,
+                                    'Введите ваше имя',
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 60, left: 43, right: 42),
-                                    child: AppButton(
-                                        title: "Авторизоваться", onTap: () {}),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 60,
+                                    left: 43,
+                                    right: 42,
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                  child: AppButton(
+                                    title: "Авторизоваться",
+                                    onTap: () async {
+                                      await authAction();
+                                    },
+                                    height: 66,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> authAction() async {
+    if (idController.text.isNotEmpty && nameController.text.isNotEmpty) {
+      final sp = await SharedPreferences.getInstance();
+      sp.setString('userId', idController.text);
+      sp.setString('userName', nameController.text);
+      context.router.replaceAll([const HomeRouter()]);
+    }
+  }
+
+  TextField buildTextField(TextEditingController controller, String hint) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: hint,
+        fillColor: AppColors.lightGrey,
+        filled: true,
+        contentPadding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          borderSide: BorderSide(
+            color: AppColors.lightGrey,
+          ),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+          borderSide: BorderSide(
+            color: AppColors.lightGrey,
+          ),
+        ),
+      ),
     );
   }
 }

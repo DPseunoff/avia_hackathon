@@ -1,19 +1,27 @@
+import 'package:avia_hackathon/controllers/home_controller.dart';
+import 'package:avia_hackathon/pages/home_page.dart';
 import 'package:avia_hackathon/utils/app_colors.dart';
 import 'package:avia_hackathon/utils/assets_paths.dart';
+import 'package:avia_hackathon/utils/enums.dart';
 import 'package:avia_hackathon/utils/text_styles.dart';
 import 'package:avia_hackathon/widgets/app_button.dart';
+import 'package:avia_hackathon/widgets/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 
 class MainCardStates {
-  Widget restState() {
+  // Объект класса контроллера
+  final hc = Get.find<HomeController>();
+
+  Widget restState(BuildContext context, String minutes, String seconds) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 44),
       child: Column(
         children: [
           const SizedBox(height: 91),
           Text(
-            '14:59',
+            '$minutes:$seconds',
             style: AppTextStyles.warningText(
               fontSize: 84,
               height: 101.66 / 84,
@@ -24,7 +32,15 @@ class MainCardStates {
           const SizedBox(height: 42),
           Image.asset(Assets.breakPic, height: 132),
           const Spacer(),
-          AppButton(title: 'Продолжить работу', onTap: () {}),
+          AppButton(
+              title: 'Продолжить работу',
+              onTap: () async {
+                final res = await AppDialogs()
+                    .showDialogWindow(context, DialogState.doneRest);
+                if (res) {
+                  await AppDialogs().callRestDialogWithOptions(context);
+                }
+              }),
           const SizedBox(height: 29),
         ],
       ),
@@ -45,10 +61,12 @@ class MainCardStates {
           ),
           const SizedBox(height: 72),
           const Center(
-            child: SpinKitCircle(color: AppColors.mainBlack, size: 250),
+            child: SpinKitCircle(color: AppColors.mainBlack, size: 175),
           ),
         ],
       ),
     );
   }
+
+
 }

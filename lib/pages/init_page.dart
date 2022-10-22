@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:avia_hackathon/controllers/home_controller.dart';
 import 'package:avia_hackathon/navigation/router.gr.dart';
+import 'package:avia_hackathon/utils/route_points.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,7 +21,12 @@ class _InitPageState extends State<InitPage> {
   @override
   void initState() {
     super.initState();
+    initializeControllers();
     checkAuth();
+  }
+
+  void initializeControllers() {
+    Get.put(HomeController());
   }
 
   Future<void> checkAuth() async {
@@ -26,7 +34,6 @@ class _InitPageState extends State<InitPage> {
     final loggedIn = prefs.getString('userId') ?? '';
     if (loggedIn.isEmpty) {
       await context.router.replaceAll([const OnBoardingRouter()]);
-      // await context.router.replaceAll([const HomeRouter()]);
     } else {
       await context.router.replaceAll([const HomeRouter()]);
     }
