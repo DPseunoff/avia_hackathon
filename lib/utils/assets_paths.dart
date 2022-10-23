@@ -12,6 +12,7 @@ abstract class Assets {
 
   static const planeTakeOff = '${iconPathStart}take_off.png';
   static const planeLanding = '${iconPathStart}landing.png';
+  static const taskActive = '${iconPathStart}task_active_icon.svg';
 
   static const arrow = '${pathStart}route_arrow.svg';
   static const doubleArrow = '${iconPathStart}double_arrow_icon.svg';
