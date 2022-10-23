@@ -203,8 +203,6 @@ class AppDialogs {
   Future<void> callRestDialogWithOptions(BuildContext context) async {
     final hc = Get.find<HomeController>();
     final res = await AppDialogs().dropDownDialog(context);
-    hc.setState(HomeState.loading);
-    await Future.delayed(const Duration(milliseconds: 3000));
-    hc.setState(HomeState.taskWaiting);
+    hc.getTaskList();
   }
 }

@@ -122,10 +122,9 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Obx(
         () {
-          if (hc.taskList.isEmpty) {
+          if (hc.taskList.isEmpty && hc.state.value != HomeState.resting) {
             return MainCardStates().loadingState();
           } else {
-            final task = hc.taskList.values.first;
             switch (hc.state.value) {
               case HomeState.loading:
                 return MainCardStates().loadingState();
@@ -133,6 +132,7 @@ class _HomePageState extends State<HomePage> {
                 return MainCardStates().restState(context, minutes, seconds);
               case HomeState.taskWaiting:
               case HomeState.taskDone:
+                final task = hc.taskList.values.first;
                 final isActive = hc.state.value == HomeState.taskDone;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 44),
