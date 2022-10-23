@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type response struct {
+type responseTasks struct {
 	BusID         int    `json:"BusID"`
 	DriverName    string `json:"DriverName"`
 	Action        string `json:"Action"`
@@ -18,6 +18,15 @@ type response struct {
 	TimeToExecute int    `json:"TimeToExecute"`
 	From          string `json:"From"`
 	To            string `json:"To"`
+}
+
+type responseFlights struct {
+	ID         int    `json:"id"`
+	DateTime   string `json:"time"`
+	AD         string `json:"AD"`
+	Gate       string `json:"gate"`
+	Parking    string `json:"parking"`
+	Passengers int    `json:"passenger_num"`
 }
 
 func (srv *Server) getTasks(c *gin.Context) {
@@ -34,10 +43,10 @@ func (srv *Server) getTasks(c *gin.Context) {
 	Tasks.CreateTasks(srv.Data.Flights, srv.Data.Buses, srv.Data.Distances)
 
 	// Выбираем все существующие задачи и отправляем диспетчеру
-	var respSlice []response
+	var respSlice []responseTasks
 	for _, bus := range srv.Data.Buses {
 		for _, task := range bus.Tasks {
-			respSlice = append(respSlice, response{
+			respSlice = append(respSlice, responseTasks{
 				BusID:         bus.ID,
 				DriverName:    bus.Name,
 				Action:        task.Action,
@@ -54,29 +63,29 @@ func (srv *Server) getTasks(c *gin.Context) {
 }
 
 func (srv *Server) getBusTasks(c *gin.Context) {
-	type busID struct {
-		id   string `uri:"id" binding:"required,uuid"`
+	type uri struct {
+		id string `uri:"id"`
 	}
 
-	var busid busID
-	if err := c.ShouldBindUri(&busid); err != nil {
-		c.Writer.WriteHeader(500)
+	var busID uri
+	if err := c.BindUri(&busID); err != nil {
+		c.Writer.WriteHeader(400)
 		fmt.Fprintf(c.Writer, err.Error())
 		return
 	}
-	
-	id, err := strconv.Atoi(busid.id)
+
+	id, err := strconv.Atoi(busID.id)
 	if err != nil {
 		c.Writer.WriteHeader(500)
 		fmt.Fprintf(c.Writer, err.Error())
 		return
 	}
 
-	var respSlice []response
+	var respSlice []responseTasks
 	for _, bus := range srv.Data.Buses {
 		if bus.ID == id {
 			for _, task := range bus.Tasks {
-				respSlice = append(respSlice, response{
+				respSlice = append(respSlice, responseTasks{
 					BusID:         bus.ID,
 					DriverName:    bus.Name,
 					Action:        task.Action,
@@ -96,7 +105,19 @@ func (srv *Server) getBusTasks(c *gin.Context) {
 }
 
 func (srv *Server) getFlights(c *gin.Context) {
-
+	var respSlice []responseFlights
+	for _, flight := range srv.Data.Flights {
+		respSlice = append(respSlice, responseFlights{
+			ID: flight.ID,
+			DateTime: flight.DateTime.String(),
+			AD: flight.AD,
+			Gate: flight.Gate,
+			Parking: flight.Parking,
+			Passengers: flight.Passengers,
+		})
+	}
+	responseEncoder := json.NewEncoder(c.Writer)
+	responseEncoder.Encode(respSlice)
 }
 
 func (srv *Server) getDrivers(c *gin.Context) {

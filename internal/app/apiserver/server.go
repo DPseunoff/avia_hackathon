@@ -52,6 +52,11 @@ func (srv *Server) Start(config *Config.Config) error {
 		return err
 	}
 
+	srv.Data.Flights, err = srv.Airport.GetFlights()
+	if err != nil {
+		return err
+	}
+
 	srv.Data.Buses = models.NewBuses(srv.Data.Distances)
 
 	srv.Addr = config.ServerAddr
