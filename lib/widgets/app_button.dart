@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
     required this.onTap,
     this.height = 70,
     this.whiteVersion = false,
+    this.color = AppColors.mainBlack,
     Key? key,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class AppButton extends StatelessWidget {
   final bool whiteVersion;
   final String title;
   final Function() onTap;
+  final Color color;
 
   final duration = const Duration(milliseconds: 150);
 
@@ -31,9 +33,10 @@ class AppButton extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: whiteVersion ? Colors.white : AppColors.mainBlack,
+          color: whiteVersion ? Colors.white : color,
           border: Border.all(
             width: whiteVersion ? 1 : 0,
+            color: whiteVersion ? Colors.black : Colors.transparent
           ),
         ),
         child: Center(

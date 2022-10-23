@@ -133,20 +133,23 @@ class _HomePageState extends State<HomePage> {
                 return MainCardStates().restState(context, minutes, seconds);
               case HomeState.taskWaiting:
               case HomeState.taskDone:
+                final isActive = hc.state.value == HomeState.taskDone;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 44),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 33),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Текущая задача',
-                                  style: AppTextStyles.heading1()),
+                              const SizedBox(height: 33),
+                              Text(
+                                'Текущая задача',
+                                style: AppTextStyles.heading1(),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
@@ -161,20 +164,27 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           const Spacer(),
-                          Row(
-                            children: [
-                              Image.asset(
-                                task.taskType == TaskType.takeOff
-                                    ? Assets.planeTakeOff
-                                    : Assets.planeLanding,
-                                height: 39,
-                              ),
-                              const SizedBox(width: 14),
-                              Text(
-                                task.timeStart,
-                                style: AppTextStyles.heading1(),
-                              )
-                            ],
+                          if (isActive) ...[
+                            _buildActiveTaskFlag(),
+                            const SizedBox(width: 24),
+                          ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 33),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  task.taskType == TaskType.takeOff
+                                      ? Assets.planeTakeOff
+                                      : Assets.planeLanding,
+                                  height: 39,
+                                ),
+                                const SizedBox(width: 14),
+                                Text(
+                                  task.timeStart,
+                                  style: AppTextStyles.heading1(),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -198,15 +208,15 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 42),
                       Row(
                         children: [
-                          routeDot(task.startRoute),
+                          routeDot(task.startRoute, isActive: isActive),
                           const Spacer(),
                           routeArrow(task.timeToMiddle),
                           const Spacer(),
-                          routeDot(task.middleRoute),
+                          routeDot(task.middleRoute, isActive: isActive),
                           const Spacer(),
                           routeArrow(task.timeToEnd),
                           const Spacer(),
-                          routeDot(task.endRoute),
+                          routeDot(task.endRoute, isActive: isActive),
                         ],
                       ),
                       const Spacer(flex: 50),
@@ -218,18 +228,21 @@ class _HomePageState extends State<HomePage> {
                       const Spacer(flex: 51),
                       if (hc.state.value == HomeState.taskWaiting)
                         AppButton(
-                            title: 'Принять',
-                            onTap: () {
-                              hc.setState(HomeState.taskDone);
-                            }),
+                          title: 'Принять',
+                          onTap: () {
+                            hc.setState(HomeState.taskDone);
+                          },
+                        ),
                       if (hc.state.value == HomeState.taskDone)
                         AppButton(
-                            title: 'Выполнено',
-                            onTap: () {
-                              hc
-                                ..setTaskStatusDone(task.taskId)
-                                ..setState(HomeState.taskWaiting);
-                            }),
+                          title: 'Выполнено',
+                          color: AppColors.orange,
+                          onTap: () {
+                            hc
+                              ..setTaskStatusDone(task.taskId)
+                              ..setState(HomeState.taskWaiting);
+                          },
+                        ),
                       const SizedBox(height: 29),
                     ],
                   ),
@@ -238,6 +251,27 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
+    );
+  }
+
+  Container _buildActiveTaskFlag() {
+    const radius = Radius.circular(14);
+    return Container(
+      width: 86,
+      decoration: const BoxDecoration(
+        color: AppColors.orange,
+        borderRadius: BorderRadius.only(
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+      ),
+      padding: const EdgeInsets.only(
+        top: 10,
+        left: 10,
+        right: 10,
+        bottom: 18,
+      ),
+      child: SvgPicture.asset(Assets.taskActive),
     );
   }
 
@@ -258,14 +292,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Column routeDot(String route) {
+  Column routeDot(String route, {bool isActive = false}) {
     return Column(
       children: [
         Container(
           height: 19.71,
           width: 19.71,
-          decoration: const BoxDecoration(
-            color: Colors.black,
+          decoration: BoxDecoration(
+            color: isActive ? AppColors.orange : Colors.black,
             shape: BoxShape.circle,
           ),
         ),
@@ -415,7 +449,8 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: CustomScrollView(
                 slivers: [
-                  if (hc.state.value == HomeState.loading || hc.taskList.length <= 1)
+                  if (hc.state.value == HomeState.loading ||
+                      hc.taskList.length <= 1)
                     SliverToBoxAdapter(
                       child: Column(
                         children: [
