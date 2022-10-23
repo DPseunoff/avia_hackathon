@@ -1,5 +1,5 @@
 # Авиахакатон МАИ 2022
-![https://img.shields.io/badge/golang-1.19.2-blue](https://img.shields.io/badge/golang-1.19.2-blue)
+![https://img.shields.io/badge/golang-1.19.2-blue](https://img.shields.io/badge/golang-1.19.2-blue) ![https://img.shields.io/badge/flutter-3.3.5-green](https://img.shields.io/badge/flutter-3.3.5-green)
 
 В данном проекте представлена реализация системы управления пассажирскими автобусами в аэропорту. В проекте присутствует Web-сервис для диспетчера, мобильное приложение для самих водителей, связующий их бэкенд и алгоритм автоматического оптимизированного распределения задач между водителями.
 
