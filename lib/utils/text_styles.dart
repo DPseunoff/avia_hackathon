@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:avia_hackathon/utils/app_colors.dart';
 
 // Класс текстовых стилей приложения
 abstract class AppTextStyles {
@@ -60,6 +61,19 @@ abstract class AppTextStyles {
     double height = 50.83 / 42,
     Color color = Colors.black,
     FontWeight fontWeight = FontWeight.w700,
+  }) =>
+      GoogleFonts.inter(
+        fontSize: fontSize,
+        height: height,
+        color: color,
+        fontWeight: fontWeight,
+      );
+
+  static TextStyle errorText({
+    double fontSize = 14,
+    double height = 16 / 14,
+    Color color = AppColors.errorRed,
+    FontWeight fontWeight = FontWeight.w300,
   }) =>
       GoogleFonts.inter(
         fontSize: fontSize,

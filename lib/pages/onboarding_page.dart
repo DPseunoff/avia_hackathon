@@ -18,6 +18,8 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final nameController = TextEditingController();
   final idController = TextEditingController();
+  bool _idValidate = false;
+  bool _nameValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(Assets.backGround),
@@ -34,7 +39,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           ),
           child: Container(
             decoration:
-                BoxDecoration(color: AppColors.mainBlack.withOpacity(0.4)),
+            BoxDecoration(color: AppColors.mainBlack.withOpacity(0.4)),
             child: Row(
               children: [
                 Column(
@@ -123,6 +128,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
+                                    left: 49,
+                                    top: 3,
+                                  ),
+                                  child: SizedBox(
+                                    child: errorText(_idValidate),
+                                    height: 14,
+                                  ),
+                                ),
+
+                                // поле ввода имени
+                                Padding(
+                                  padding: const EdgeInsets.only(
                                     left: 44,
                                     top: 25,
                                     bottom: 9,
@@ -149,17 +166,47 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    top: 60,
-                                    left: 43,
-                                    right: 42,
+                                    left: 49,
+                                    top: 3,
+                                    bottom: 30,
                                   ),
-                                  child: AppButton(
-                                    title: "Авторизоваться",
-                                    onTap: () async {
-                                      await authAction();
-                                    },
-                                    height: 66,
+                                  child: SizedBox(
+                                    child: errorText(_nameValidate),
+                                    height: 14,
                                   ),
+                                ),
+
+                                // кнопка авторизации
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 43,
+                                        right: 42,
+                                        top: 20,
+                                      ),
+                                      child: AppButton(
+                                        title: "Авторизоваться",
+                                        onTap: () async {
+                                          setState(() {
+                                            if (idController.text.isEmpty) {
+                                              _idValidate = true;
+                                            } else {
+                                              _idValidate = false;
+                                            }
+                                            if (nameController.text.isEmpty) {
+                                              _nameValidate = true;
+                                            } else {
+                                              _nameValidate = false;
+                                            }
+                                          });
+                                          await authAction();
+                                        },
+                                        height: 66,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -189,6 +236,19 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   // Виджет поля ввода
+  Text errorText(bool validator) {
+    if (validator) {
+      return Text(
+        'Поле не должно быть пустым!',
+        style: AppTextStyles.errorText()
+      );
+    }
+    else {
+      return const Text('');
+    }
+  }
+
+  // Метод для создания текстового поля
   TextField buildTextField(TextEditingController controller, String hint) {
     return TextField(
       controller: controller,
