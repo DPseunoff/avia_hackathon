@@ -2,6 +2,7 @@ import 'package:avia_hackathon/utils/enums.dart';
 import 'package:avia_hackathon/utils/tack_model.dart';
 import 'package:get/get.dart';
 import 'package:avia_hackathon/utils/tests.dart' as t;
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Контроллер для реактивного стейт-менеджмента
 class HomeController extends GetxController {
@@ -23,7 +24,16 @@ class HomeController extends GetxController {
     state.value = newState;
   }
 
+  // Отметить таск выполненным и удалить его из списка тасков
   void setTaskStatusDone(String taskId) {
     taskList.remove(taskId);
+  }
+
+  // Метод выхода из профиля
+  Future<void> cancel() async {
+    final sp = await SharedPreferences.getInstance();
+    sp.clear();
+    state.value = HomeState.taskWaiting;
+    taskList.clear();
   }
 }

@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^1.1.5
   flutter_bounce: ^1.1.0
   csv: ^5.0.1
+  lottie: ^1.4.2
 
 dev_dependencies:
   flutter_test:

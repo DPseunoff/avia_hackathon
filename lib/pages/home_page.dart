@@ -77,6 +77,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    if (countdownTimer != null) {
+      countdownTimer!.cancel();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
@@ -320,8 +328,7 @@ class _HomePageState extends State<HomePage> {
                   DialogState.exit,
                 );
                 if (res) {
-                  final sp = await SharedPreferences.getInstance();
-                  sp.clear();
+                  await hc.cancel();
                   context.router.replaceAll([const OnBoardingRouter()]);
                 }
               }),

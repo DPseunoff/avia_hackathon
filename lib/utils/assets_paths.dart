@@ -1,5 +1,7 @@
 // Класс с путями ассетов
 abstract class Assets {
+  static const lottie = 'assets/bus_animate.json';
+
   static const pathStart = 'assets/';
   static const iconPathStart = 'assets/icons/';
 
