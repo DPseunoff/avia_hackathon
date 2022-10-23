@@ -2,6 +2,7 @@ package models
 
 import (
 	"math/rand"
+	"strconv"
 	"time"
 )
 
@@ -10,14 +11,14 @@ type Bus struct {
 	Capacity int
 	Tasks    []Task
 	Name     string
-	Status   string //в работе или нет
-	Location string // последнее местоположение
+	Status   string // в работе или нет
+	Location string // начальное местоположение
 }
 
 type Task struct {
 	Id        int
-	Action    string //загрузка или разгрузка
-	Type      string //в очереди, выполнено, в процессе
+	Action    string // загрузка или разгрузка
+	Type      string // в очереди, выполнено, в процессе
 	TimeStart time.Time
 	Route     Route
 }
@@ -36,7 +37,7 @@ func NewBuses(d []Distance) []Bus {
 			ID:       i,
 			Capacity: 50,
 			Tasks:    []Task{},
-			Name:     "1",
+			Name:     strconv.Itoa(i),
 			Status:   "resting",
 			Location: distinctPoints[rand.Intn(len(distinctPoints))],
 		})
@@ -46,7 +47,7 @@ func NewBuses(d []Distance) []Bus {
 			ID:       i,
 			Capacity: 100,
 			Tasks:    []Task{},
-			Name:     "1",
+			Name:     strconv.Itoa(i),
 			Status:   "resting",
 			Location: distinctPoints[rand.Intn(len(distinctPoints))],
 		})

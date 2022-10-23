@@ -29,6 +29,13 @@ type responseFlights struct {
 	Passengers int    `json:"passenger_num"`
 }
 
+type responseBuses struct {
+	ID       int    `json:"BusID"`
+	Name     string `json:"name"`
+	Capacity int    `json:"capacity"`
+	Status   string `json:"status"`
+}
+
 func (srv *Server) getTasks(c *gin.Context) {
 	//Обновляем расписание
 	var err error
@@ -108,11 +115,11 @@ func (srv *Server) getFlights(c *gin.Context) {
 	var respSlice []responseFlights
 	for _, flight := range srv.Data.Flights {
 		respSlice = append(respSlice, responseFlights{
-			ID: flight.ID,
-			DateTime: flight.DateTime.String(),
-			AD: flight.AD,
-			Gate: flight.Gate,
-			Parking: flight.Parking,
+			ID:         flight.ID,
+			DateTime:   flight.DateTime.String(),
+			AD:         flight.AD,
+			Gate:       flight.Gate,
+			Parking:    flight.Parking,
 			Passengers: flight.Passengers,
 		})
 	}
@@ -120,8 +127,19 @@ func (srv *Server) getFlights(c *gin.Context) {
 	responseEncoder.Encode(respSlice)
 }
 
-func (srv *Server) getDrivers(c *gin.Context) {
+func (srv *Server) getBuses(c *gin.Context) {
+	var respSlice []responseBuses
+	for _, bus := range srv.Data.Buses {
+		respSlice = append(respSlice, responseBuses{
+			ID:       bus.ID,
+			Name:     bus.Name,
+			Capacity: bus.Capacity,
+			Status:   bus.Status,
+		})
+	}
 
+	responseEncoder := json.NewEncoder(c.Writer)
+	responseEncoder.Encode(respSlice)
 }
 
 func (srv *Server) changeTask(c *gin.Context) {
