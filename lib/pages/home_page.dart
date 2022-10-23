@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:avia_hackathon/controllers/home_controller.dart';
 import 'package:avia_hackathon/navigation/router.gr.dart';
@@ -33,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   Timer? countdownTimer;
   Duration myDuration = const Duration(minutes: 15);
 
+  // Сброс таймера
   void resetTimer() {
     if (countdownTimer != null) {
       stopTimer();
@@ -41,15 +41,18 @@ class _HomePageState extends State<HomePage> {
     startTimer();
   }
 
+  // Запуск таймера
   void startTimer() {
     countdownTimer =
         Timer.periodic(const Duration(seconds: 1), (_) => setCountDown());
   }
 
+  // Стоп таймера
   void stopTimer() {
     setState(() => countdownTimer!.cancel());
   }
 
+  // Установка текущего состояния таймера
   void setCountDown() {
     const reduceSecondsBy = 1;
     setState(() {
@@ -66,6 +69,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   String strDigits(int n) => n.toString().padLeft(2, '0');
+
+  @override
+  void initState() {
+    super.initState();
+    hc.getTaskList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +101,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Виджет карточки текущего задания
   Widget mainTaskCard() {
     final minutes = strDigits(myDuration.inMinutes.remainder(60));
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
-
     return Container(
       width: 768,
       height: 611,
@@ -105,105 +114,131 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Obx(
         () {
-          switch (hc.state.value) {
-            case HomeState.loading:
-              return MainCardStates().loadingState();
-            case HomeState.resting:
-              return MainCardStates().restState(context, minutes, seconds);
-            case HomeState.taskWaiting:
-            case HomeState.taskDone:
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 44),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 33),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Текущая задача',
-                                style: AppTextStyles.heading1()),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                'Посадка на самолет',
-                                style: AppTextStyles.smallText().copyWith(
-                                  fontSize: 22,
-                                  height: 26.63 / 22,
-                                  color: AppColors.greyText,
+          if (hc.taskList.isEmpty) {
+            return MainCardStates().loadingState();
+          } else {
+            final task = hc.taskList.values.first;
+            switch (hc.state.value) {
+              case HomeState.loading:
+                return MainCardStates().loadingState();
+              case HomeState.resting:
+                return MainCardStates().restState(context, minutes, seconds);
+              case HomeState.taskWaiting:
+              case HomeState.taskDone:
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 44),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 33),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Текущая задача',
+                                  style: AppTextStyles.heading1()),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  taskTypeName(task!.taskType),
+                                  style: AppTextStyles.smallText().copyWith(
+                                    fontSize: 22,
+                                    height: 26.63 / 22,
+                                    color: AppColors.greyText,
+                                  ),
                                 ),
+                              )
+                            ],
+                          ),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              Image.asset(
+                                task.taskType == TaskType.takeOff
+                                    ? Assets.planeTakeOff
+                                    : Assets.planeLanding,
+                                height: 39,
                               ),
-                            )
-                          ],
-                        ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            Image.asset(Assets.planeTakeOff, height: 39),
-                            const SizedBox(width: 14),
-                            Text('12:00', style: AppTextStyles.heading1())
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 41),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                              const SizedBox(width: 14),
+                              Text(
+                                task.timeStart,
+                                style: AppTextStyles.heading1(),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 41),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Кол-во пасажиров: ${task.passengersNumber.toString()}\nВремя выполнения: ${task.timeForExecute} мин.\nМестонахождение: ${task.startRoute}',
+                            style: AppTextStyles.mainText(),
+                          ),
+                          const Spacer(),
+                          Text(
+                            'Пункт посадки: ${task.middleRoute}\nПункт высадки: ${task.endRoute}',
+                            style: AppTextStyles.mainText(),
+                          ),
+                        ],
+                      ),
+                      const Spacer(flex: 44),
+                      Text('Схема проезда:', style: AppTextStyles.mainText()),
+                      const SizedBox(height: 42),
+                      Row(
+                        children: [
+                          routeDot(task.startRoute),
+                          const Spacer(),
+                          routeArrow(task.timeToMiddle),
+                          const Spacer(),
+                          routeDot(task.middleRoute),
+                          const Spacer(),
+                          routeArrow(task.timeToEnd),
+                          const Spacer(),
+                          routeDot(task.endRoute),
+                        ],
+                      ),
+                      const Spacer(flex: 50),
+                      if (task.busMates.isNotEmpty)
                         Text(
-                          'Кол-во пасажиров: 53\nВремя выполнения: 27 мин.\nМестонахождение: А444',
+                          'С вами поедут: ${task.busMates.join(', ')}',
                           style: AppTextStyles.mainText(),
                         ),
-                        const Spacer(),
-                        Text(
-                          'Пункт посадки: A345\nПункт высадки: DCG_E',
-                          style: AppTextStyles.mainText(),
-                        ),
-                      ],
-                    ),
-                    const Spacer(flex: 44),
-                    Text('Схема проезда:', style: AppTextStyles.mainText()),
-                    const SizedBox(height: 42),
-                    Row(
-                      children: [
-                        routeDot('A444'),
-                        const Spacer(),
-                        routeArrow('12'),
-                        const Spacer(),
-                        routeDot('A345'),
-                        const Spacer(),
-                        routeArrow('15'),
-                        const Spacer(),
-                        routeDot('DCG_E'),
-                      ],
-                    ),
-                    const Spacer(flex: 50),
-                    Text('С вами поедут: №20, №44',
-                        style: AppTextStyles.mainText()),
-                    const Spacer(flex: 51),
-                    if (hc.state.value == HomeState.taskWaiting)
-                      AppButton(
-                          title: 'Принять',
-                          onTap: () {
-                            hc.setState(HomeState.taskDone);
-                          }),
-                    if (hc.state.value == HomeState.taskDone)
-                      AppButton(
-                          title: 'Выполнено',
-                          onTap: () {
-                            hc.setState(HomeState.taskWaiting);
-                          }),
-                    const SizedBox(height: 29),
-                  ],
-                ),
-              );
+                      const Spacer(flex: 51),
+                      if (hc.state.value == HomeState.taskWaiting)
+                        AppButton(
+                            title: 'Принять',
+                            onTap: () {
+                              hc.setState(HomeState.taskDone);
+                            }),
+                      if (hc.state.value == HomeState.taskDone)
+                        AppButton(
+                            title: 'Выполнено',
+                            onTap: () {
+                              hc
+                                ..setTaskStatusDone(task.taskId)
+                                ..setState(HomeState.taskWaiting);
+                            }),
+                      const SizedBox(height: 29),
+                    ],
+                  ),
+                );
+            }
           }
         },
       ),
     );
+  }
+
+  String taskTypeName(TaskType type) {
+    if (type == TaskType.landing) {
+      return 'Высадка из самолета';
+    } else {
+      return 'Посадка на самолет';
+    }
   }
 
   Column routeArrow(String time) {
@@ -238,6 +273,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Виджет нижнего вспомогательного меню
   Widget toolTip() {
     return Align(
       alignment: Alignment.bottomRight,
@@ -348,9 +384,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Виджет левого бара с задачами
   Widget leftBar(BuildContext context) {
     final barWidth = MediaQuery.of(context).size.width / 3;
-
     return Obx(
       () => Container(
         width: barWidth,
@@ -372,7 +408,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: CustomScrollView(
                 slivers: [
-                  if (hc.state.value == HomeState.loading)
+                  if (hc.state.value == HomeState.loading || hc.taskList.isEmpty)
                     SliverToBoxAdapter(
                       child: Column(
                         children: [
@@ -394,8 +430,11 @@ class _HomePageState extends State<HomePage> {
                       sliver: SliverList(
                         delegate: SliverChildListDelegate(
                           List.generate(
-                            5,
-                            (i) => sideTaskCard(i),
+                            hc.taskList.length - 1,
+                            (i) => sideTaskCard(
+                              i,
+                              hc.taskList.values.elementAt(i + 1),
+                            ),
                           ),
                         ),
                       ),
@@ -409,7 +448,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget sideTaskCard(int i) {
+  // Виджет карточки следующих заданий
+  Widget sideTaskCard(int i, TaskModel task) {
     return Container(
       height: 276,
       width: 402,
@@ -432,7 +472,7 @@ class _HomePageState extends State<HomePage> {
             child: Align(
               alignment: Alignment.topRight,
               child: Text(
-                '12:00',
+                task.timeStart,
                 style: AppTextStyles.smallText(
                   fontWeight: FontWeight.w700,
                 ),
@@ -451,17 +491,17 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 27.83),
               Text(
-                'Кол-во пасажиров: 53',
+                'Кол-во пасажиров: ${task.passengersNumber.toString()}',
                 style: AppTextStyles.smallText(),
               ),
               const SizedBox(height: 8.63),
               Text(
-                'Время на выполнение: 5 мин.',
+                'Время на выполнение: ${task.timeForExecute} мин.',
                 style: AppTextStyles.smallText(),
               ),
               const SizedBox(height: 8.63),
               Text(
-                'Тип задачи: посадка на самолет',
+                'Тип задачи: ${taskTypeName(task.taskType).toLowerCase()}',
                 style: AppTextStyles.smallText(),
               ),
               const Spacer(),
@@ -472,7 +512,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    routeDot('A444'),
+                    routeDot(task.middleRoute),
                     const SizedBox(width: 5),
                     Expanded(
                       child: SvgPicture.asset(
@@ -481,7 +521,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(width: 5),
-                    routeDot('A345'),
+                    routeDot(task.endRoute),
                   ],
                 ),
               ),

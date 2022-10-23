@@ -6,6 +6,7 @@ import 'package:avia_hackathon/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// Экран, возникающий при попытке связи с диспетчером
 class AlertPage extends StatefulWidget {
   const AlertPage({Key? key}) : super(key: key);
 

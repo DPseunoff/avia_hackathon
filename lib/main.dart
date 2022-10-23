@@ -8,6 +8,7 @@ void main() {
   runApp(MyApp());
 }
 
+// Корневой виджет дерева виджетов
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 

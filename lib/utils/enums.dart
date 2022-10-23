@@ -1,3 +1,4 @@
+// Состояния всплывающего диалогового окна
 enum DialogState {
   takingRest,
   doneRest,
@@ -5,6 +6,7 @@ enum DialogState {
   exit,
 }
 
+// Состояния главного экрана
 enum HomeState {
   taskWaiting,
   taskDone,
@@ -12,6 +14,7 @@ enum HomeState {
   resting,
 }
 
+// Тип задания (посадка или высадка)
 enum TaskType {
   takeOff, landing, unknown
 }

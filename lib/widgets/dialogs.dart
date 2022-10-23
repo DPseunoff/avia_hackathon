@@ -7,7 +7,9 @@ import 'package:avia_hackathon/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// Класс всплывающих диалоговых окон
 class AppDialogs {
+
   final barrierColor = Colors.black.withOpacity(0.65);
   static const String choose = 'Выберите опцию';
   static const String takeRest = 'Вы уверены, что хотите взять перерыв?';
@@ -58,6 +60,7 @@ class AppDialogs {
     );
   }
 
+  // Основные диалоги
   Future<bool> showDialogWindow(BuildContext context, DialogState state) async {
     final res = await showDialog(
       context: context,
@@ -115,6 +118,8 @@ class AppDialogs {
     return res ?? false;
   }
 
+  // Диалог с выбором текущего местоположения автобуса
+  // (необходимо при окончании перерыва)
   Future dropDownDialog(BuildContext context) async {
     final res = await showDialog(
       context: context,
@@ -193,6 +198,8 @@ class AppDialogs {
     return res;
   }
 
+  // Вспомогательный метод вызова диалога с выбором поинтов
+  // нужен для тестов
   Future<void> callRestDialogWithOptions(BuildContext context) async {
     final hc = Get.find<HomeController>();
     final res = await AppDialogs().dropDownDialog(context);

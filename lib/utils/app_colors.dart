@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Класс цветов приложения
 abstract class AppColors {
   static const Color mainBlack = Color(0xff2B2D33);
   static const Color darkGrey = Color(0xffD9D9D9);

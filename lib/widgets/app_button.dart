@@ -3,6 +3,7 @@ import 'package:avia_hackathon/utils/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 
+// Отдельный виджет кнопки, присутствующей на всех экранах
 class AppButton extends StatelessWidget {
   const AppButton({
     required this.title,

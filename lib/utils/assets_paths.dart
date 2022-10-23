@@ -1,3 +1,4 @@
+// Класс с путями ассетов
 abstract class Assets {
   static const pathStart = 'assets/';
   static const iconPathStart = 'assets/icons/';

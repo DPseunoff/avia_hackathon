@@ -1,0 +1,58 @@
+import 'package:avia_hackathon/utils/tack_model.dart';
+import 'enums.dart';
+
+// Список для тестирования без бэк-енда
+final testArray = [
+  TaskModel(
+    taskId: '1',
+    startRoute: 'A33',
+    middleRoute: '24',
+    endRoute: 'DGC_E',
+    timeStart: '02:59',
+    timeToMiddle: '10',
+    timeToEnd: '3',
+    timeForExecute: '20',
+    passengersNumber: 144,
+    taskType: TaskType.landing,
+    busMates: const [4],
+  ),
+  TaskModel(
+    taskId: '2',
+    startRoute: 'DGC_E',
+    middleRoute: '55',
+    endRoute: '12',
+    timeStart: '04:00',
+    timeToMiddle: '5',
+    timeToEnd: '14',
+    timeForExecute: '15',
+    passengersNumber: 32,
+    taskType: TaskType.takeOff,
+    busMates: const [],
+  ),
+  TaskModel(
+    taskId: '3',
+    startRoute: '12',
+    middleRoute: '55',
+    endRoute: 'B44',
+    timeStart: '07:50',
+    timeToMiddle: '22',
+    timeToEnd: '10',
+    timeForExecute: '40',
+    passengersNumber: 55,
+    taskType: TaskType.takeOff,
+    busMates: const [1],
+  ),
+  TaskModel(
+    taskId: '4',
+    startRoute: 'B44',
+    middleRoute: 'B44',
+    endRoute: 'DGC_A',
+    timeStart: '14:32',
+    timeToMiddle: '0',
+    timeToEnd: '12',
+    timeForExecute: '22',
+    passengersNumber: 50,
+    taskType: TaskType.landing,
+    busMates: const [],
+  ),
+];

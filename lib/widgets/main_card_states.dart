@@ -10,10 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
+// Дополнительные состояния большой карточки на домашнем экране
 class MainCardStates {
-  // Объект класса контроллера
   final hc = Get.find<HomeController>();
 
+  // Состояние отдыха с таймером
   Widget restState(BuildContext context, String minutes, String seconds) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 44),
@@ -47,6 +48,7 @@ class MainCardStates {
     );
   }
 
+  // Состояние загрузки
   Widget loadingState() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 94),
@@ -67,6 +69,4 @@ class MainCardStates {
       ),
     );
   }
-
-
 }

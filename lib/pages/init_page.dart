@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Экран для навигации при запуске приложения
 class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);
 
@@ -25,10 +26,14 @@ class _InitPageState extends State<InitPage> {
     checkAuth();
   }
 
+  // Метод инициализации контроллеров
   void initializeControllers() {
     Get.put(HomeController());
   }
 
+  // Проверка на прохождения авторизации
+  // Если человек авторизован, но перезашел в приложение
+  // ему не придется проходить ее заново
   Future<void> checkAuth() async {
     final prefs = await SharedPreferences.getInstance();
     final loggedIn = prefs.getString('userId') ?? '';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// Класс текстовых стилей приложения
 abstract class AppTextStyles {
   static TextStyle heading1({
     double fontSize = 32,

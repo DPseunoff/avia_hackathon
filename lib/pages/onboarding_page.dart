@@ -14,6 +14,7 @@ class OnBoardingPage extends StatefulWidget {
   State<OnBoardingPage> createState() => _OnBoardingPageState();
 }
 
+// Экран авторизации пользователя
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final nameController = TextEditingController();
   final idController = TextEditingController();
@@ -176,6 +177,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
+  // При авторизации айди и имя пользователя записываются в устройство
+  // (не происходит, если поля ввода - пустые)
   Future<void> authAction() async {
     if (idController.text.isNotEmpty && nameController.text.isNotEmpty) {
       final sp = await SharedPreferences.getInstance();
@@ -185,6 +188,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     }
   }
 
+  // Виджет поля ввода
   TextField buildTextField(TextEditingController controller, String hint) {
     return TextField(
       controller: controller,
