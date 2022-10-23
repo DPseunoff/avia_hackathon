@@ -8,7 +8,7 @@ import (
 )
 
 func TestOpen(t *testing.T) {
-	config, _ := Config.LoadConfig("D:/Go/Aviahackathon/config.yaml")
+	config, _ := Config.LoadConfig("./../../config.yaml")
 	DB := NewDB(
 		config.DBHost,
 		config.DBPort,

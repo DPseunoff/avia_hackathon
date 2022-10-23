@@ -19,6 +19,7 @@ func NewAirport(db *PostgreSQL.DB) *Airport {
 	}
 }
 
+// Получение рейсов из базы данных
 func (a *Airport) GetFlights() ([]models.Flight, error) {
 	var flights []models.Flight
 	rows, err := a.DB.Connect.Query(`SELECT * FROM "Flights"`)
@@ -45,6 +46,7 @@ func (a *Airport) GetFlights() ([]models.Flight, error) {
 	return flights, nil
 }
 
+// Получение таблицы расстояний между точками
 func (a *Airport) GetDistances() ([]models.Distance, error) {
 	var dist []models.Distance
 	rows, err := a.DB.Connect.Query(

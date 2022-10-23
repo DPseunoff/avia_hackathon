@@ -143,7 +143,7 @@ func (srv *Server) getBuses(c *gin.Context) {
 }
 
 func (srv *Server) changeTask(c *gin.Context) {
-
+	//
 }
 
 func (srv *Server) startTask(c *gin.Context) {

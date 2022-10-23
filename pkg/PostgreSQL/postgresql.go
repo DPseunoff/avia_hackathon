@@ -24,6 +24,7 @@ func NewDB(host, port, user, password string) *DB {
 	}
 }
 
+// Подключение к базе данных
 func (db *DB) Open(DBName string) error {
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		db.host, db.port, db.user, db.password, DBName)
@@ -39,6 +40,7 @@ func (db *DB) Open(DBName string) error {
 	return nil
 }
 
+// Закрытие соединения с базой данных
 func (db *DB) Close() {
 	db.Connect.Close()
 }

@@ -7,6 +7,6 @@ import (
 )
 
 func TestLoadConfig(t *testing.T) {
-	_, err := LoadConfig("D:/Go/Aviahackathon/config.yaml")
+	_, err := LoadConfig("./../../config.yaml")
 	assert.Equal(t, nil, err)
 }

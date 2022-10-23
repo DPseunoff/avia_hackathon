@@ -11,7 +11,7 @@ import (
 )
 
 func connect() *sqlAirport.Airport {
-	config, _ := Config.LoadConfig("D:/Go/Aviahackathon/config.yaml")
+	config, _ := Config.LoadConfig("./../../../config.yaml")
 	airport := sqlAirport.NewAirport(PostgreSQL.NewDB(
 		config.DBHost,
 		config.DBPort,

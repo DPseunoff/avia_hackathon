@@ -9,7 +9,7 @@ import (
 )
 
 func connect() *Airport {
-	config, _ := Config.LoadConfig("D:/Go/Aviahackathon/config.yaml")
+	config, _ := Config.LoadConfig("./../../../config.yaml")
 	airport := NewAirport(PostgreSQL.NewDB(
 		config.DBHost,
 		config.DBPort,

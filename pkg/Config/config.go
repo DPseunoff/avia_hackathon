@@ -38,6 +38,7 @@ func LoadConfig(path string) (*Config, error) {
 	return config, nil
 }
 
+ // Парсинг флага из командной строки при компиляции проекта
 func ParseFlag() string {
 	var configPath = flag.String("config", "config.yaml", "config path")
 	flag.Parse()
