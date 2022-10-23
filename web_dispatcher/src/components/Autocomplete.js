@@ -19,7 +19,7 @@ class Autocomplete extends Component {
             activeSuggestion: 0,
             filteredSuggestions: [],
             showSuggestions: false,
-            userInput: props.currentTask.driver.name
+            userInput: props.currentTask.BusID
         };
     }
 
@@ -95,7 +95,6 @@ class Autocomplete extends Component {
                 suggestionsListComponent = (
                     <DropMenu>
                         {filteredSuggestions.map((suggestion) => {
-
                             return (
                                 <DropItem key={suggestion} onClick={onClick}>
                                     {suggestion}
@@ -131,7 +130,7 @@ class Autocomplete extends Component {
 export default Autocomplete;
 
 const Input = styled.input`
-  width: 500px;
+  width: 400px;
   padding: 10px 15px;
   border-radius: 5px;
   outline: none;

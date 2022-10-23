@@ -1,4 +1,4 @@
-import {DESKTOP_ROUTE, HISTORY_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, STATISTICS_ROUTE} from "./utils/consts";
+import {DESKTOP_ROUTE, HISTORY_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "./utils/consts";
 import Auth from "./pages/Auth";
 import Desktop from "./pages/Desktop";
 

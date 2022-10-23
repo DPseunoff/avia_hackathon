@@ -2,12 +2,15 @@ import React, {useState} from 'react';
 import styled from "styled-components";
 import {Row} from "../styledComponents";
 import {ReactComponent as Arrow} from "../img/arrow.svg";
-import Autocomplete from "./Autocomplete";
+import {flights} from "../mockData";
 
 const DetailTask = ({show, currentTask, onClose}) => {
 
-    const [timeStart, onChangeTimeStart] = useState(currentTask.timeStart);
-    const [duration, onChangeDuration] = useState(currentTask.route.timeToExecute);
+    // const [timeStart, onChangeTimeStart] = useState(currentTask.TimeStart);
+    // const [duration, onChangeDuration] = useState(currentTask.TimeToExecute);
+
+    let flight = flights.filter(e => e.time === currentTask.TimeStart && e.AD === currentTask.Action)
+    // console.log(flight)
 
     return (
         <DetailTaskStyled show={show}>
@@ -16,11 +19,13 @@ const DetailTask = ({show, currentTask, onClose}) => {
                     Изменить задание
                     <Button onClick={onClose} className="button">Close</Button>
                 </DetailTaskHeader>
+
             </DetailTaskHeaderContainer>
             <DetailTaskList>
                 <div className="modal-body">
-
                     <Col align={"left"}>
+                        <h3>Задание №{currentTask.BusID + 1}</h3>
+                        <h4><b>{currentTask.Action === "D" ? "Вылет" : "Посадка"}</b></h4>
                         <h4>Маршрут</h4>
                         <RouteDetail style={{marginBottom: "30px"}}>
                             <Col>
@@ -28,41 +33,61 @@ const DetailTask = ({show, currentTask, onClose}) => {
                                     <Col
                                         style={{justifyContent: "space-between", height: "40px", marginTop: "7px"}}>
                                         <Circle/>
-                                        {currentTask.route.from}
+                                        {currentTask.From}
                                     </Col>
                                     <Col>
                                         <Arrow/>
-                                        <span>{currentTask.route.timeToExecute} минут</span>
+                                        <span>{currentTask.TimeToExecute} минут</span>
                                     </Col>
                                     <Col
                                         style={{justifyContent: "space-between", height: "40px", marginTop: "7px"}}>
                                         <Circle/>
-                                        {currentTask.route.to[currentTask.route.to.length - 1]}
+                                        {currentTask.To}
                                     </Col>
                                 </Row>
                             </Col>
                         </RouteDetail>
                         <div style={{marginBottom: "30px"}}>
-                            <h4 style={{width: 400}}>Водители</h4>
-                            {currentTask.driver.map(driver => <div style={{marginBottom: "10px"}}>
-                                <h6 style={{width: 400}}>Идентификационный номер - ФИО</h6>
-                                <Autocomplete
-                                    suggestions={drivers.map(driver => driver.name + "\t" + driver.status)}
-                                    currentTask={currentTask}
-                                    currentValue={`#${driver.id} - ${driver.name}`}
-                                />
-                                {/*<Label>#{driver.id} - {driver.name}</Label>*/}
-                            </div>)}
+                            <h4 style={{width: 400}}>Водитель</h4>
+                            {/*drivers.map(driver => driversData.filter(e => e.id - 1 == driver.name)[0].name + "\t" + driversData.filter(e => e.id - 1 == driver.name)[0].id*/}
+                            {/*{currentTask.driver.map(driver => <div style={{marginBottom: "10px"}}>*/}
+                            {/*    <h6 style={{width: 400}}>Идентификационный номер - ФИО</h6>*/}
+                            {/*<Autocomplete*/}
+                            {/*    suggestions={driversData}*/}
+                            {/*    currentTask={currentTask}*/}
+                            {/*/>*/}
+                                <Label>#{currentTask.BusID}</Label>
+                            {/*</div>)}*/}
                         </div>
-                        <div style={{marginBottom: "0"}}>
+                        <div style={{marginBottom: "30px"}}>
                             <h4 style={{width: 400}}>Время</h4>
 
                             <h6 style={{width: 400}}>Старт</h6>
                             {/*<Label>{currentTask.timeStart}</Label>*/}
-                            <InputTime value={timeStart} onChange={e => onChangeTimeStart(e.target.value)}/>
+
+                            <Label>{currentTask.TimeStart}</Label>
                             <h6 style={{width: 400}}>Продолжительность</h6>
                             {/*<Label>{currentTask.route.timeToExecute}</Label>*/}
-                            <InputTime value={duration} onChange={e => onChangeDuration(e.target.value)}/>
+                            <Label>{currentTask.TimeToExecute}</Label>
+                        </div>
+                        <div style={{marginBottom: "30px"}}>
+                            <h4 style={{width: 400}}>Рейс</h4>
+                            <Row>
+
+                                <Col align={"left"}>
+                                    <Label>Рейс</Label>
+                                    <Label>Количество пассажиров</Label>
+                                    <Label>Гейт</Label>
+                                    <Label>Место парковки</Label>
+                                </Col>
+                                <Col align={"left"}>
+                                    <Label>{flight[0].id}</Label>
+                                    <Label>{flight[0].passenger_num}</Label>
+                                    <Label>{flight[0].gate}</Label>
+                                    <Label>{flight[0].parking}</Label>
+                                </Col>
+                            </Row>
+
                         </div>
                     </Col>
                     {/*<Col style={{alignItems: "flex-start"}}>*/}
@@ -102,19 +127,20 @@ const DetailTaskStyled = styled.div`
   z-index: 1000;
   display: ${props => props.show ? "flex" : "none"};
   flex-direction: column;
-  width: 600px;
+  //width: 600px;
   align-items: center;
   background: ${props => props.history ? "#2B2D33" : "#D9D9D9"};
   border-radius: ${props => props.variant ? "15px" : "none"};
 `
 const DetailTaskHeaderContainer = styled.div`
-  border-right: 2px solid black;
+  //border-right: 2px solid black;
   background: #D9D9D9;
   border-radius: ${props => props.variant ? "15px 0 0 0" : "none"};
   position: fixed;
   z-index: 100;
   width: inherit;
   padding: 20px;
+  //width: available;
 `
 const DetailTaskHeader = styled.h1`
   display: flex;
@@ -124,6 +150,7 @@ const DetailTaskHeader = styled.h1`
   border-radius: ${props => props.variant ? "15px" : "none"};
 `
 const DetailTaskList = styled.div`
+  padding-top: 30px;
   border-radius: ${props => props.variant ? "15px" : "none"};
   width: 100%;
   height: ${props => props.height ? props.height + "px" : "calc(100vh - 100px)"};
@@ -152,24 +179,10 @@ const Label = styled.span`
   margin-bottom: 5px;
   border-radius: 5px;
 `
-const InputTime = styled.input`
-  padding: 10px 15px;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  width: 400px;
-  margin-right: 10px;
-`
 const Col = styled.div`
   display: flex;
   flex-direction: column;
   align-items: ${props => props.align ? props.align : "center"};
-`
-const ColInput = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 30px;
 `
 const Circle = styled.div`
   height: 10px;
@@ -177,9 +190,6 @@ const Circle = styled.div`
   content: "";
   border-radius: 100px;
   background: #000;
-`
-const InputLabel = styled.h4`
-  color: white;
 `
 const Button = styled.button`
   font-size: 24px;
@@ -193,126 +203,4 @@ const Button = styled.button`
   outline: none;
   height: 48px;
 `
-const drivers = [
-    {
-        id: "1",
-        name: "Петров Александр",
-    }, {
-        id: "2",
-        name: "Сидоров Петр",
-    }, {
-        id: "3",
-        name: "Козлов Геннадий",
-    }, {
-        id: "4",
-        name: "Саня",
-    }, {
-        id: "4",
-        name: "Саня",
-    }, {
-        id: "5",
-        name: "Коля",
-    }, {
-        id: "6",
-        name: "Вася",
-    }, {
-        id: "7",
-        name: "Гоча",
-    }, {
-        id: "8",
-        name: "Федор",
-    }, {
-        id: "9",
-        name: "Петя",
-    }, {
-        id: "10",
-        name: "Женя",
-    }, {
-        id: "11",
-        name: "Пуля",
-    }, {
-        id: "12",
-        name: "Сергей",
-    }, {
-        id: "13",
-        name: "Мария",
-    }, {
-        id: "14",
-        name: "Саня",
-    }, {
-        id: "15",
-        name: "Саша",
-    }, {
-        id: "16",
-        name: "Лиза",
-    }, {
-        id: "17",
-        name: "Гриша",
-    }, {
-        id: "18",
-        name: "Дамир",
-    }, {
-        id: "19",
-        name: "Дима",
-    }, {
-        id: "20",
-        name: "Соня",
-    }, {
-        id: "21",
-        name: "Настя",
-    }, {
-        id: "22",
-        name: "Настя",
-    }, {
-        id: "23",
-        name: "Оля",
-    }, {
-        id: "24",
-        name: "Григорий",
-    }, {
-        id: "25",
-        name: "Апостол",
-    }, {
-        id: "26",
-        name: "Дуся",
-    }, {
-        id: "27",
-        name: "Зоя",
-    }, {
-        id: "28",
-        name: "Петр",
-    }, {
-        id: "29",
-        name: "Саня",
-    }, {
-        id: "30",
-        name: "Леня",
-    }, {
-        id: "31",
-        name: "Дамир",
-    }, {
-        id: "32",
-        name: "Дмитрий",
-    }, {
-        id: "34",
-        name: "Дима",
-    }, {
-        id: "35",
-        name: "Катя",
-    }, {
-        id: "36",
-        name: "Екатерина",
-    }, {
-        id: "37",
-        name: "Суфле",
-    }, {
-        id: "38",
-        name: "Кот",
-    }, {
-        id: "39",
-        name: "Ширик",
-    }, {
-        id: "40",
-        name: "Апостол",
-    },
-]
+

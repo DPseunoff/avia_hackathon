@@ -6,19 +6,20 @@ const ScheduleCard = ({flight, history}) => {
     return (
         <CardSchedule history={history}>
             <CardScheduleCol>
-                <span>Самолет:</span>
+                <span>Номер рейса:</span>
                 <span>Заявлено пассажиров:</span>
                 <span>Время прилета:</span>
-                <span>Авиакомпания:</span>
                 <span>Точка посадки:</span>
+                <span>Гейт:</span>
             </CardScheduleCol>
             <CardScheduleCol>
-                <span>{flight.flight}</span>
+                <span>{flight.id}</span>
                 <span>{flight.loading}</span>
-                <span>{flight.load}</span>
-                <span>{flight.arrivalTime}</span>
-                <span>{flight.airline}</span>
-                <span>{flight.landingPoint}</span>
+                <span>{flight.passenger_num}</span>
+                <span>{flight.time.slice(0, 19)}</span>
+                {/*<span>{flight.airline}</span>*/}
+                <span>{flight.parking}</span>
+                <span>{flight.gate}</span>
             </CardScheduleCol>
             {/*<CardScheduleLink>*/}
             {/*    >>*/}
@@ -35,7 +36,7 @@ const CardSchedule = styled.div`
   border-radius: 15px;
   padding: 20px;
   display: flex;
-  gap: 50px;
+  gap: 20px;
   position: relative;
   background: ${props => props.history ? "#D9D9D9" : "#fff"};
   margin-bottom: 20px;
@@ -44,12 +45,7 @@ const CardSchedule = styled.div`
 const CardScheduleCol = styled.div`
   display: flex;
   flex-direction: column;
+  //font-size: 16px;
 `
-const CardScheduleLink = styled.div`
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-`
-
 
 

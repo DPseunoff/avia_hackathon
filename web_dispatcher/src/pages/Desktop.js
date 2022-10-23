@@ -2,14 +2,14 @@ import React from 'react';
 import Schedule from "../components/Schedule";
 import BusTransfer from "../components/BusTransfer";
 import styled from "styled-components";
-import {schedule, tasksData} from "../mockData";
+import {serverData, flights} from "../mockData";
 
 const Desktop = ({history}) => {
 
     return (
         <DesktopStyled>
-            <Schedule schedule={schedule} history={history}/>
-            <BusTransfer tasksData={tasksData} history={history}/>
+            <Schedule schedule={flights} history={history}/>
+            <BusTransfer tasksData={serverData} history={history}/>
         </DesktopStyled>
     );
 };

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import BusTransferCard from "./BusTransferCard";
-import ModalDetailTask from "./ModalDetailTask";
 import {Statistics} from "./Statistics";
 import {DESKTOP_ROUTE, HISTORY_ROUTE} from "../utils/consts";
 import {Link} from "react-router-dom";
@@ -48,8 +47,8 @@ const BusTransfer = ({tasksData, history}) => {
                 <Input history={history} onChange={e => setSearchText(e.target.value)} placeholder={"Поиск задания"} type="text"/>
             </Header>
             <TasksContainer>
-                {search(tasks, searchText).map(task =>
-                    <BusTransferCard setCurrentTask={setCurrentTask} setShow={setShow} key={task.id} task={task} history={history}/>)}
+                {search(tasks, searchText).map((task, i) =>
+                    <BusTransferCard identificator={i} setCurrentTask={setCurrentTask} setShow={setShow} key={i} task={task} history={history}/>)}
             </TasksContainer>
             {/*<ModalDetailTask currentTask={currentTask} history={history} onClose={() => setShow(false)} show={show} tasks={tasks}/>*/}
             <DetailTask currentTask={currentTask} onClose={() => setShow(false)} show={show} tasks={tasks}/>

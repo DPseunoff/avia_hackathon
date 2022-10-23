@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import {ReactComponent as Arrow} from "../img/arrow.svg";
 
-const BusTransferCard = ({task, setShow, setCurrentTask, history}) => {
+const BusTransferCard = ({task, setShow, setCurrentTask, history, identificator}) => {
     return (
         <CardBusTransfer
             onClick={() => {
@@ -12,28 +12,31 @@ const BusTransferCard = ({task, setShow, setCurrentTask, history}) => {
             history={history}
         >
             <CardBusTransferCol>
-                <span><b>Задача: {task.id}</b></span>
-                <span style={{marginBottom: "20px"}}>{task.actionFront}</span>
+                <span><b>Задача: {identificator}</b></span>
+                <span style={{marginBottom: "20px"}}>{task.Action === "D" ? "Вылет" : "Посадка"}</span>
                 <Row>
-                    <Col>
+                    <Col style={{width: 50}}>
                         <Circle/>
-                        {task.route.from}
+                        {task.From}
                     </Col>
                     <Col style={{marginTop: "-5px"}}>
                         <Arrow />
-                        <span style={{marginTop: "-5px"}}>{task.route.timeToExecute} минут</span>
+                        <span style={{marginTop: "-5px"}}>{task.TimeToExecute} минут</span>
                     </Col>
-                    <Col>
+                    <Col style={{width: 50}}>
                         <Circle/>
-                        {task.route.to[task.route.to.length - 1]}
+                        {task.To}
                     </Col>
                 </Row>
 
             </CardBusTransferCol>
             <CardBusTransferCol right={true}>
-                <span><b>{task.timeStart}</b></span>
+                <span><b>{task.TimeStart.slice(0,19)}</b></span>
                 <div style={{marginTop: "30px"}}>
-                    {task.driver.map(driver => <p style={{textAlign: "right"}} key={driver.id}>{driver.name}</p>)}
+                    {/*{drivers.filter(e => task.BusID == e.id)[0].name}*/}
+                    {/*{tasks.drivers.map(e => e.id).filter(e => e.id === task.DriverName)}*/}
+                    {/*{drivers.filter(e => e.id - 1 == task.DriverName)[0].name}*/}
+                    <span>Driver_id: {task.BusID}</span>
                 </div>
             </CardBusTransferCol>
         </CardBusTransfer>
@@ -59,6 +62,7 @@ const CardBusTransferCol = styled.div`
   display: flex;
   flex-direction: column;
   align-items: ${props => props.right ? "flex-end" : "unset"};
+  text-align: ${props => props.right ? "right" : "unset"};
 `
 const Col = styled.div`
   display: flex;

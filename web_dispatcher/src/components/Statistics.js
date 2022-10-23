@@ -17,8 +17,8 @@ export function Statistics ({onClose, showModal}) {
     };
 
     const [show, setShow] = useState({});
-    const [flights, setFlights] = useState(prepareFlightsStat(flightsData))
-    const [drivers, setDrivers] = useState(prepareDriversStat(driversData))
+    const flights = prepareFlightsStat(flightsData)
+    const drivers = prepareDriversStat(driversData)
 
     useEffect(() => {
         document.body.addEventListener("keydown", closeOnEscapeKeyDown);
@@ -132,8 +132,8 @@ const Container = styled.div`
 `
 const Zoom = styled.button`
   position: absolute;
-  bottom: 0;
-  right: 30px;
+  top: 210px;
+  right: -15px;
   width: 50px;
   height: 50px;
   border-radius: 100px;
