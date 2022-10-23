@@ -1,5 +1,4 @@
 import 'package:avia_hackathon/controllers/home_controller.dart';
-import 'package:avia_hackathon/pages/home_page.dart';
 import 'package:avia_hackathon/utils/app_colors.dart';
 import 'package:avia_hackathon/utils/assets_paths.dart';
 import 'package:avia_hackathon/utils/enums.dart';
