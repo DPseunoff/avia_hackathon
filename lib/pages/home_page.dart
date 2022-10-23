@@ -415,7 +415,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: CustomScrollView(
                 slivers: [
-                  if (hc.state.value == HomeState.loading || hc.taskList.isEmpty)
+                  if (hc.state.value == HomeState.loading || hc.taskList.length <= 1)
                     SliverToBoxAdapter(
                       child: Column(
                         children: [
